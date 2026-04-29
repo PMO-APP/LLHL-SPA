@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Lakowe Lakes SPA — Project Command Centre</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ─── DESIGN: Dark luxury. Cinematic. Refined brutalism meets hotel concierge. ─── */
+/* Playfair Display (editorial) + Outfit (clean body) + JetBrains Mono (data) */
+
+:root {
+  --ink:    #08090c;
+  --ink2:   #0e1218;
+  --ink3:   #141c24;
+  --ink4:   #1a2530;
+  --ink5:   #212f3d;
+  --border: rgba(196,158,72,0.14);
+  --bdr2:   rgba(255,255,255,0.055);
+  --bdr3:   rgba(255,255,255,0.025);
+  --gold:   #c49e48;
+  --gold2:  #e3c06a;
+  --goldd:  rgba(196,158,72,0.14);
+  --cream:  #ede8de;
+  --cream2: #bfb9ae;
+  --dust:   #6e7d8c;
+  --red:    #e05252;
+  --redb:   rgba(224,82,82,0.11);
+  --amr:    #d4960e;
+  --amrb:   rgba(212,150,14,0.11);
+  --grn:    #3fad78;
+  --grnb:   rgba(63,173,120,0.11);
+  --blu:    #4599d4;
+  --blub:   rgba(69,153,212,0.11);
+  --r: 7px;
+  --sw: 224px;
+  --font: 'Outfit',sans-serif;
+  --mono: 'JetBrains Mono',monospace;
+  --display: 'Playfair Display',serif;
+}
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+html,body { height:100%; overflow:hidden }
+body { font-family:var(--font); background:var(--ink); color:var(--cream); font-size:13px; display:flex }
+
+::-webkit-scrollbar { width:3px; height:3px }
+::-webkit-scrollbar-track { background:transparent }
+::-webkit-scrollbar-thumb { background:rgba(196,158,72,0.2); border-radius:2px }
+
+/* ─── SIDEBAR ─── */
+.sidebar {
+  width:var(--sw); flex-shrink:0;
+  background:var(--ink2);
+  border-right:1px solid var(--border);
+  display:flex; flex-direction:column;
+  height:100vh; overflow-y:auto;
+}
+.sb-logo {
+  padding:22px 18px 16px;
+  border-bottom:1px solid var(--border);
+  position:relative;
+}
+.sb-logo::before {
+  content:''; position:absolute;
+  top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,var(--gold),var(--gold2),transparent);
+}
+.sb-eyebrow {
+  font-family:var(--mono); font-size:8px; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--gold); margin-bottom:7px;
+}
+.sb-project {
+  font-family:var(--display); font-size:17px; font-weight:700;
+  color:var(--cream); line-height:1.25;
+}
+.sb-sub { font-size:10px; color:var(--dust); margin-top:3px; font-weight:300 }
+.sb-kpi {
+  padding:12px 18px;
+  border-bottom:1px solid var(--bdr2);
+  display:grid; grid-template-columns:1fr 1fr; gap:8px;
+}
+.sb-kpi-box {
+  background:var(--ink3); border-radius:5px; padding:7px 9px;
+}
+.sb-kpi-n { font-family:var(--display); font-size:22px; font-weight:700; line-height:1 }
+.sb-kpi-l { font-size:9px; color:var(--dust); margin-top:2px; letter-spacing:.06em; text-transform:uppercase }
+.sb-progress {
+  padding:12px 18px;
+  border-bottom:1px solid var(--bdr2);
+}
+.sb-progress-label {
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:10px; color:var(--dust); margin-bottom:6px;
+}
+.sb-progress-label strong { color:var(--gold); font-weight:600 }
+.prog-track { height:3px; background:rgba(255,255,255,0.06); border-radius:2px; overflow:hidden }
+.prog-fill { height:100%; border-radius:2px; background:linear-gradient(90deg,var(--gold),var(--gold2)); transition:width .6s }
+.nav-section { padding:10px 0 2px }
+.nav-label {
+  padding:0 18px 4px;
+  font-size:8px; letter-spacing:.14em; text-transform:uppercase;
+  color:rgba(110,125,140,0.5); font-family:var(--mono);
+}
+.nav-item {
+  display:flex; align-items:center; gap:9px;
+  padding:8px 18px; cursor:pointer;
+  color:var(--dust); font-size:12px; font-weight:500;
+  transition:all .14s; border-left:2px solid transparent;
+  position:relative;
+}
+.nav-item:hover { color:var(--cream2); background:rgba(255,255,255,0.022) }
+.nav-item.active { color:var(--gold); border-left-color:var(--gold); background:var(--goldd) }
+.nav-icon { font-size:13px; width:14px; text-align:center; flex-shrink:0 }
+.nav-badge {
+  margin-left:auto; font-size:8px; font-weight:700;
+  padding:2px 6px; border-radius:9px; min-width:17px; text-align:center;
+  font-family:var(--mono);
+}
+.nav-badge.red { background:var(--red); color:#fff }
+.nav-badge.amber { background:var(--amr); color:#fff }
+.nav-badge.gold { background:var(--gold); color:var(--ink) }
+.sb-footer {
+  margin-top:auto; padding:14px 18px;
+  border-top:1px solid var(--bdr2);
+}
+.countdown-chip {
+  display:flex; align-items:center; gap:7px;
+  background:var(--ink3); border:1px solid var(--border);
+  border-radius:6px; padding:8px 11px; margin-bottom:8px;
+}
+.countdown-num {
+  font-family:var(--display); font-size:28px; font-weight:700;
+  color:var(--gold); line-height:1;
+}
+.countdown-label { font-size:9px; color:var(--dust); line-height:1.5 }
+.countdown-label strong { display:block; color:var(--cream2); font-size:11px }
+.sb-date { font-size:9px; color:var(--dust); font-family:var(--mono) }
+
+/* ─── MAIN ─── */
+.main { flex:1; display:flex; flex-direction:column; height:100vh; overflow:hidden }
+.topbar {
+  padding:12px 26px;
+  border-bottom:1px solid var(--border);
+  background:var(--ink2);
+  display:flex; align-items:center; gap:14px;
+  flex-shrink:0;
+  position:relative;
+}
+.topbar::after {
+  content:''; position:absolute;
+  bottom:0; left:26px; right:26px; height:1px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  opacity:.3;
+}
+.topbar-title {
+  font-family:var(--display); font-size:20px; font-weight:600;
+  color:var(--cream); flex:1;
+}
+.topbar-meta { font-size:10px; color:var(--dust); font-family:var(--mono) }
+.btn {
+  display:inline-flex; align-items:center; gap:5px;
+  border:none; border-radius:6px; cursor:pointer;
+  font-family:var(--font); font-weight:600; font-size:12px;
+  transition:all .16s; padding:7px 14px;
+}
+.btn-gold { background:var(--gold); color:var(--ink) }
+.btn-gold:hover { background:var(--gold2) }
+.btn-ghost { background:rgba(255,255,255,0.06); color:var(--cream2); border:1px solid var(--bdr2) }
+.btn-ghost:hover { background:rgba(255,255,255,0.10) }
+.btn-sm { padding:5px 11px; font-size:11px }
+.btn-danger { background:var(--redb); color:var(--red); border:1px solid rgba(224,82,82,0.2) }
+
+.content { flex:1; overflow-y:auto; padding:22px 26px }
+.page { display:none }
+.page.active { display:block; animation:pageIn .18s ease }
+@keyframes pageIn { from { opacity:0; transform:translateY(5px) } to { opacity:1; transform:none } }
+
+/* ─── CARDS ─── */
+.card {
+  background:var(--ink3); border:1px solid var(--bdr2);
+  border-radius:var(--r); overflow:hidden;
+}
+.card-head {
+  padding:13px 16px;
+  border-bottom:1px solid var(--bdr2);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.card-title {
+  font-family:var(--display); font-size:14px; font-weight:600;
+  color:var(--cream); letter-spacing:.02em;
+}
+.card-body { padding:14px 16px }
+
+/* ─── DASHBOARD ─── */
+.dash-banner {
+  background:linear-gradient(135deg, var(--ink3) 0%, var(--ink4) 60%, var(--ink5) 100%);
+  border:1px solid var(--border);
+  border-radius:var(--r); padding:20px 24px;
+  margin-bottom:16px;
+  display:flex; align-items:center; gap:28px;
+  position:relative; overflow:hidden;
+}
+.dash-banner::before {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(ellipse 60% 80% at 80% 50%, rgba(196,158,72,0.06), transparent);
+}
+.banner-days {
+  font-family:var(--display); font-size:64px; font-weight:900;
+  color:var(--gold); line-height:1; flex-shrink:0; position:relative;
+}
+.banner-right { flex:1; position:relative }
+.banner-label { font-size:10px; color:var(--dust); text-transform:uppercase; letter-spacing:.1em }
+.banner-target { font-family:var(--display); font-size:18px; font-weight:600; color:var(--cream); margin:3px 0 10px }
+.banner-bar { height:4px; background:rgba(255,255,255,0.06); border-radius:2px; overflow:hidden }
+.banner-bar-fill { height:100%; border-radius:2px; background:linear-gradient(90deg,var(--gold),var(--gold2)) }
+.banner-pct { font-size:10px; color:var(--dust); margin-top:5px }
+.banner-alerts { display:flex; flex-direction:column; gap:6px; flex-shrink:0; position:relative }
+.alert-chip {
+  display:flex; align-items:center; gap:6px;
+  padding:6px 11px; border-radius:20px; font-size:11px; font-weight:600;
+}
+.alert-chip.red { background:var(--redb); border:1px solid rgba(224,82,82,0.25); color:var(--red) }
+.alert-chip.amber { background:var(--amrb); border:1px solid rgba(212,150,14,0.25); color:var(--amr) }
+
+.kpi-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-bottom:16px }
+.kpi-card {
+  background:var(--ink3); border:1px solid var(--bdr2);
+  border-radius:var(--r); padding:14px;
+  position:relative; overflow:hidden;
+}
+.kpi-card::after {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+}
+.kpi-card.c-gold::after { background:var(--gold) }
+.kpi-card.c-grn::after { background:var(--grn) }
+.kpi-card.c-amr::after { background:var(--amr) }
+.kpi-card.c-red::after { background:var(--red) }
+.kpi-card.c-blu::after { background:var(--blu) }
+.kpi-num { font-family:var(--display); font-size:38px; font-weight:700; color:var(--cream); line-height:1 }
+.kpi-lbl { font-size:9px; color:var(--dust); letter-spacing:.08em; text-transform:uppercase; margin-top:4px }
+.kpi-sub { font-size:11px; color:var(--dust); margin-top:2px }
+
+.dash-row { display:grid; gap:14px; margin-bottom:14px }
+.dash-row.col2 { grid-template-columns:1fr 1fr }
+.dash-row.col32 { grid-template-columns:3fr 2fr }
+
+.deadline-item {
+  display:flex; align-items:flex-start; gap:9px;
+  padding:8px 0; border-bottom:1px solid var(--bdr3);
+}
+.deadline-item:last-child { border-bottom:none }
+.dl-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; margin-top:4px }
+.dl-task { font-size:11px; color:var(--cream2); flex:1; line-height:1.4 }
+.dl-meta { font-size:9px; color:var(--dust); margin-top:1px }
+.dl-days { font-size:11px; font-weight:700; white-space:nowrap; flex-shrink:0 }
+
+.phase-row { margin-bottom:11px }
+.phase-row-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:4px }
+.phase-name { font-size:11px; color:var(--cream2); font-weight:500 }
+.phase-count { font-size:9px; color:var(--dust) }
+.phase-bar { height:4px; background:rgba(255,255,255,0.05); border-radius:2px; overflow:hidden }
+.phase-fill { height:100%; border-radius:2px }
+
+.cp-row {
+  display:flex; align-items:center; gap:9px;
+  padding:7px 10px; border-radius:5px; margin-bottom:6px;
+  background:var(--redb); border:1px solid rgba(224,82,82,0.18);
+}
+.cp-row.amber { background:var(--amrb); border-color:rgba(212,150,14,0.18) }
+.cp-id { font-size:9px; font-family:var(--mono); color:var(--dust); width:20px; flex-shrink:0 }
+.cp-task { font-size:11px; color:var(--cream2); flex:1 }
+.cp-days { font-size:10px; font-weight:700 }
+
+/* ─── TABLES ─── */
+.tbl-wrap { overflow-x:auto }
+table.tbl { width:100%; border-collapse:collapse }
+.tbl th {
+  background:var(--ink4); color:var(--dust);
+  padding:8px 10px; text-align:left;
+  font-size:8.5px; letter-spacing:.1em; text-transform:uppercase;
+  font-family:var(--mono); font-weight:400;
+  border-bottom:1px solid var(--bdr2); white-space:nowrap;
+}
+.tbl td {
+  padding:8px 10px; border-bottom:1px solid var(--bdr3);
+  font-size:12px; color:var(--cream2); vertical-align:middle;
+}
+.tbl tr:hover td { background:rgba(255,255,255,0.013) }
+.tbl tr.group-row td {
+  background:var(--ink4);
+  font-family:var(--display); font-size:12px; font-weight:600;
+  color:var(--cream); border-bottom:1px solid var(--bdr2);
+  padding:6px 10px;
+}
+
+/* ─── BADGES ─── */
+.badge {
+  display:inline-flex; align-items:center;
+  padding:2px 7px; border-radius:9px;
+  font-size:8.5px; font-weight:700; letter-spacing:.07em;
+  text-transform:uppercase; font-family:var(--mono);
+}
+.badge.green { background:var(--grnb); color:var(--grn) }
+.badge.amber { background:var(--amrb); color:var(--amr) }
+.badge.red { background:var(--redb); color:var(--red) }
+.badge.blue { background:var(--blub); color:var(--blu) }
+.badge.muted { background:rgba(255,255,255,0.05); color:var(--dust) }
+.badge.gold { background:var(--goldd); color:var(--gold) }
+.badge.done { background:var(--grnb); color:var(--grn) }
+.badge.inprog { background:var(--amrb); color:var(--amr) }
+
+.tbl-action {
+  padding:3px 8px; border-radius:4px; border:1px solid var(--bdr2);
+  background:transparent; color:var(--dust); font-size:9px;
+  cursor:pointer; transition:all .13s; font-family:var(--mono);
+}
+.tbl-action:hover { background:var(--goldd); color:var(--gold); border-color:var(--border) }
+
+/* ─── FILTERS ─── */
+.filter-row { display:flex; gap:7px; margin-bottom:12px; flex-wrap:wrap; align-items:center }
+.fi {
+  padding:6px 10px; border:1px solid var(--bdr2); border-radius:5px;
+  background:var(--ink3); color:var(--cream2);
+  font-family:var(--font); font-size:12px; outline:none;
+  transition:border-color .14s;
+}
+.fi:focus { border-color:var(--gold) }
+.fi::placeholder { color:var(--dust) }
+select.fi option { background:var(--ink3) }
+
+/* ─── GANTT ─── */
+.gantt-header { display:flex; background:var(--ink4); border-radius:6px 6px 0 0; border:1px solid var(--bdr2) }
+.gantt-label-col { width:240px; flex-shrink:0; padding:7px 12px; font-size:8px; letter-spacing:.1em; text-transform:uppercase; color:var(--dust); font-family:var(--mono) }
+.gantt-months { flex:1; display:flex }
+.gantt-month { flex:1; padding:7px 0; text-align:center; font-size:8px; letter-spacing:.07em; text-transform:uppercase; color:var(--dust); font-family:var(--mono); border-left:1px solid var(--bdr2) }
+.gantt-body { border:1px solid var(--bdr2); border-top:none; border-radius:0 0 6px 6px; background:var(--ink3) }
+.gantt-row { display:flex; border-bottom:1px solid rgba(255,255,255,0.02); min-height:28px; align-items:center }
+.gantt-row:hover { background:rgba(255,255,255,0.015) }
+.gantt-row.gantt-group { background:var(--ink4); min-height:24px }
+.gantt-row-name { width:240px; flex-shrink:0; padding:4px 12px; font-size:11px; color:var(--cream2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.gantt-row-name .gid { font-family:var(--mono); font-size:8.5px; color:var(--dust); margin-right:4px }
+.gantt-row-name.gph { font-family:var(--display); font-size:11px; font-weight:600; color:var(--cream) }
+.gantt-bars { flex:1; position:relative; height:28px }
+.gantt-bar { position:absolute; height:12px; top:8px; border-radius:3px; min-width:3px; cursor:pointer; transition:opacity .13s }
+.gantt-bar:hover { opacity:.7 }
+.gantt-today { position:absolute; top:0; bottom:0; width:1px; background:var(--red); opacity:.55; z-index:5 }
+.gantt-today::before { content:'NOW'; position:absolute; top:-14px; left:50%; transform:translateX(-50%); font-size:6.5px; color:var(--red); font-family:var(--mono); white-space:nowrap }
+
+/* ─── CHECKLIST ─── */
+.cl-section { margin-bottom:18px }
+.cl-section-head {
+  display:flex; align-items:center; gap:9px;
+  font-family:var(--display); font-size:15px; font-weight:600;
+  color:var(--cream); margin-bottom:9px;
+  padding-bottom:7px; border-bottom:1px solid var(--bdr2);
+}
+.cl-section-pct { font-size:11px; color:var(--dust); font-family:var(--font); margin-left:auto }
+.cl-item {
+  display:flex; align-items:center; gap:9px;
+  padding:6px 10px; border-radius:5px;
+  cursor:pointer; transition:background .13s; margin-bottom:2px;
+}
+.cl-item:hover { background:rgba(255,255,255,0.025) }
+.cl-item.checked .cl-label { color:var(--dust); text-decoration:line-through }
+.cl-box {
+  width:15px; height:15px; border-radius:3px;
+  border:1.5px solid var(--bdr2); background:transparent;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; transition:all .18s;
+}
+.cl-box.on { background:var(--grn); border-color:var(--grn) }
+.cl-box.on::after { content:'✓'; font-size:9px; color:#fff; font-weight:700 }
+.cl-label { font-size:12px; color:var(--cream2); flex:1 }
+
+/* ─── NOTIFICATIONS ─── */
+.notif {
+  display:flex; align-items:flex-start; gap:11px;
+  padding:12px 14px; border-radius:var(--r); margin-bottom:7px; border:1px solid;
+}
+.notif.crit { background:var(--redb); border-color:rgba(224,82,82,0.22) }
+.notif.warn { background:var(--amrb); border-color:rgba(212,150,14,0.22) }
+.notif.info { background:var(--blub); border-color:rgba(69,153,212,0.18) }
+.notif.ok { background:var(--grnb); border-color:rgba(63,173,120,0.18) }
+.notif-icon { font-size:15px; flex-shrink:0 }
+.notif-body { flex:1 }
+.notif-title { font-size:12px; font-weight:600; margin-bottom:2px }
+.notif.crit .notif-title { color:var(--red) }
+.notif.warn .notif-title { color:var(--amr) }
+.notif.info .notif-title { color:var(--blu) }
+.notif.ok .notif-title { color:var(--grn) }
+.notif-desc { font-size:11px; color:var(--dust); line-height:1.5 }
+.notif-tag { font-size:8.5px; color:var(--dust); font-family:var(--mono); flex-shrink:0; margin-top:2px }
+
+/* ─── SNAG/ACTION CARDS ─── */
+.item-card {
+  background:var(--ink3); border:1px solid var(--bdr2);
+  border-radius:var(--r); padding:12px 14px; margin-bottom:7px;
+  display:flex; align-items:flex-start; gap:11px;
+}
+.item-card-priority { width:4px; height:36px; border-radius:2px; flex-shrink:0; margin-top:3px }
+.item-card-body { flex:1 }
+.item-card-title { font-size:13px; color:var(--cream); font-weight:500; margin-bottom:3px }
+.item-card-meta { font-size:10px; color:var(--dust); display:flex; gap:10px; flex-wrap:wrap }
+.item-card-right { display:flex; flex-direction:column; align-items:flex-end; gap:6px; flex-shrink:0 }
+.item-id {
+  font-family:var(--mono); font-size:9px; color:var(--dust);
+  background:var(--ink4); padding:2px 7px; border-radius:3px; flex-shrink:0;
+}
+.tag { display:inline-block; padding:2px 7px; border-radius:3px; font-size:9.5px; font-family:var(--mono); background:var(--ink4); color:var(--dust) }
+
+/* ─── MODAL ─── */
+.modal-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.72);
+  display:none; align-items:center; justify-content:center;
+  z-index:1000; backdrop-filter:blur(5px);
+}
+.modal-overlay.open { display:flex }
+.modal {
+  background:var(--ink3); border:1px solid var(--border);
+  border-radius:11px; width:500px; max-width:95vw; max-height:88vh; overflow-y:auto;
+  box-shadow:0 32px 80px rgba(0,0,0,0.7);
+  animation:modalIn .22s ease;
+}
+.modal::before { content:''; display:block; height:2px; background:linear-gradient(90deg,var(--gold),var(--gold2),transparent) }
+@keyframes modalIn { from { transform:scale(.95) translateY(14px); opacity:0 } to { transform:none; opacity:1 } }
+.modal-head { padding:17px 20px 13px; border-bottom:1px solid var(--bdr2); display:flex; align-items:flex-start; gap:11px }
+.modal-title { font-family:var(--display); font-size:17px; font-weight:600; color:var(--cream); flex:1; line-height:1.3 }
+.modal-close { background:none; border:none; font-size:17px; color:var(--dust); cursor:pointer; padding:2px 5px; border-radius:4px; transition:color .13s }
+.modal-close:hover { color:var(--cream) }
+.modal-body { padding:16px 20px }
+.modal-foot { padding:12px 20px; border-top:1px solid var(--bdr2); display:flex; gap:7px; justify-content:flex-end }
+.form-group { margin-bottom:12px }
+.form-label { display:block; font-size:9px; font-weight:600; color:var(--dust); letter-spacing:.1em; text-transform:uppercase; margin-bottom:4px; font-family:var(--mono) }
+.form-control {
+  width:100%; padding:8px 10px; border:1px solid var(--bdr2); border-radius:5px;
+  background:var(--ink4); color:var(--cream);
+  font-family:var(--font); font-size:12px; outline:none; transition:border-color .14s;
+}
+.form-control:focus { border-color:var(--gold) }
+.form-control option { background:var(--ink3) }
+textarea.form-control { resize:vertical; min-height:60px }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:10px }
+.info-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-bottom:13px }
+.info-box { background:var(--ink4); border-radius:5px; padding:9px 11px }
+.info-key { font-size:8.5px; color:var(--dust); text-transform:uppercase; letter-spacing:.1em; margin-bottom:2px; font-family:var(--mono) }
+.info-val { font-size:12px; color:var(--cream); font-weight:500 }
+
+/* ─── EMPTY STATES ─── */
+.empty-state { text-align:center; padding:36px; color:var(--dust) }
+.empty-state .ei { font-size:32px; margin-bottom:8px }
+.empty-state p { font-size:13px }
+</style>
+</head>
+<body>
+
+<!-- ═══ SIDEBAR ═══ -->
+<nav class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-eyebrow">Project Command</div>
+    <div class="sb-project">Lakowe Lakes<br>SPA Centre</div>
+    <div class="sb-sub">Mixta Africa · Lagos</div>
+  </div>
+
+  <div class="sb-kpi">
+    <div class="sb-kpi-box">
+      <div class="sb-kpi-n" id="sb-done" style="color:var(--grn)">0</div>
+      <div class="sb-kpi-l">Done</div>
+    </div>
+    <div class="sb-kpi-box">
+      <div class="sb-kpi-n" id="sb-red" style="color:var(--red)">0</div>
+      <div class="sb-kpi-l">At Risk</div>
+    </div>
+  </div>
+
+  <div class="sb-progress">
+    <div class="sb-progress-label">
+      <span>Programme progress</span>
+      <strong id="sb-pct">0%</strong>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="sb-fill" style="width:0%"></div></div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Overview</div>
+    <div class="nav-item active" onclick="go('dashboard')"><span class="nav-icon">⬡</span>Dashboard</div>
+    <div class="nav-item" onclick="go('notifications')"><span class="nav-icon">◎</span>Notifications<span class="nav-badge red" id="nb-notif" style="display:none">0</span></div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Schedule</div>
+    <div class="nav-item" onclick="go('tasks')"><span class="nav-icon">≡</span>Task Tracker</div>
+    <div class="nav-item" onclick="go('gantt')"><span class="nav-icon">▬</span>Gantt Chart</div>
+    <div class="nav-item" onclick="go('checklist')"><span class="nav-icon">✓</span>Checklist</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Procurement</div>
+    <div class="nav-item" onclick="go('procurement')"><span class="nav-icon">◷</span>Procurement<span class="nav-badge amber" id="nb-proc" style="display:none">0</span></div>
+    <div class="nav-item" onclick="go('approvals')"><span class="nav-icon">✦</span>Approvals<span class="nav-badge amber" id="nb-appr" style="display:none">0</span></div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Site</div>
+    <div class="nav-item" onclick="go('actions')"><span class="nav-icon">⚡</span>Action Items<span class="nav-badge red" id="nb-act" style="display:none">0</span></div>
+    <div class="nav-item" onclick="go('snags')"><span class="nav-icon">⚐</span>Snag List<span class="nav-badge red" id="nb-snag" style="display:none">0</span></div>
+  </div>
+
+  <div class="sb-footer">
+    <div class="countdown-chip">
+      <div class="countdown-num" id="sb-days">—</div>
+      <div class="countdown-label">
+        <strong>Days Remaining</strong>
+        Target: 18 Sep 2026
+      </div>
+    </div>
+    <div class="sb-date" id="sb-today-date"></div>
+  </div>
+</nav>
+
+<!-- ═══ MAIN ═══ -->
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title" id="page-heading">Dashboard</div>
+    <div class="topbar-meta" id="topbar-meta"></div>
+    <button class="btn btn-gold btn-sm" id="main-btn" onclick="mainBtnClick()" style="display:none"></button>
+  </div>
+
+  <div class="content">
+
+    <!-- ─── DASHBOARD ─── -->
+    <div class="page active" id="page-dashboard">
+      <div class="dash-banner">
+        <div class="banner-days" id="d-days">—</div>
+        <div class="banner-right">
+          <div class="banner-label">Days to Formal Handover</div>
+          <div class="banner-target">18 September 2026 — Lakowe Lakes SPA Centre</div>
+          <div class="banner-bar"><div class="banner-bar-fill" id="d-elapsed" style="width:0%"></div></div>
+          <div class="banner-pct" id="d-pct"></div>
+        </div>
+        <div class="banner-alerts" id="d-alerts"></div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card c-gold"><div class="kpi-num" id="k-total">0</div><div class="kpi-lbl">Total Tasks</div><div class="kpi-sub">Programme schedule</div></div>
+        <div class="kpi-card c-grn"><div class="kpi-num" id="k-done">0</div><div class="kpi-lbl">Completed</div><div class="kpi-sub" id="k-done-pct">0%</div></div>
+        <div class="kpi-card c-amr"><div class="kpi-num" id="k-prog">0</div><div class="kpi-lbl">In Progress</div><div class="kpi-sub" id="k-amber-ct">0 amber</div></div>
+        <div class="kpi-card c-red"><div class="kpi-num" id="k-over">0</div><div class="kpi-lbl">Overdue</div><div class="kpi-sub">RED status</div></div>
+        <div class="kpi-card c-blu"><div class="kpi-num" id="k-snags">0</div><div class="kpi-lbl">Open Snags</div><div class="kpi-sub" id="k-act-sub">0 actions</div></div>
+      </div>
+
+      <div class="dash-row col2">
+        <div class="card">
+          <div class="card-head"><div class="card-title">Phase Progress</div></div>
+          <div class="card-body" id="d-phases"></div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title">Upcoming Deadlines</div>
+            <span style="font-size:9px;color:var(--dust);font-family:var(--mono)">NEXT 21 DAYS</span>
+          </div>
+          <div class="card-body" id="d-deadlines"></div>
+        </div>
+      </div>
+
+      <div class="dash-row col32">
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title">Active & At-Risk Tasks</div>
+            <button class="tbl-action" onclick="go('tasks')">View all →</button>
+          </div>
+          <div class="card-body" id="d-active" style="padding:0"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div class="card-title">Critical Path</div></div>
+          <div class="card-body" id="d-cp"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── NOTIFICATIONS ─── -->
+    <div class="page" id="page-notifications">
+      <div id="notif-list"></div>
+    </div>
+
+    <!-- ─── TASKS ─── -->
+    <div class="page" id="page-tasks">
+      <div class="filter-row">
+        <input class="fi" id="f-tsearch" placeholder="Search tasks…" oninput="renderTasks()" style="width:190px">
+        <select class="fi" id="f-tphase" onchange="renderTasks()"><option value="">All Phases</option></select>
+        <select class="fi" id="f-trag" onchange="renderTasks()">
+          <option value="">All RAG</option>
+          <option value="RED">🔴 Red</option>
+          <option value="AMBER">🟡 Amber</option>
+          <option value="GREEN">🟢 Green</option>
+        </select>
+        <select class="fi" id="f-tstat" onchange="renderTasks()">
+          <option value="">All Status</option>
+          <option value="Completed">Completed</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Not Started">Not Started</option>
+        </select>
+      </div>
+      <div class="card">
+        <div class="tbl-wrap">
+          <table class="tbl">
+            <thead><tr>
+              <th>#</th><th>Task</th><th>Phase</th><th>Dep</th>
+              <th>Start</th><th>Finish</th><th>d</th>
+              <th>Proc Deadline</th><th>Appr Deadline</th>
+              <th>RAG</th><th>Status</th><th>Owner</th><th></th>
+            </tr></thead>
+            <tbody id="tasks-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── GANTT ─── -->
+    <div class="page" id="page-gantt">
+      <div style="overflow-x:auto">
+        <div id="gantt-wrap" style="min-width:900px"></div>
+      </div>
+    </div>
+
+    <!-- ─── CHECKLIST ─── -->
+    <div class="page" id="page-checklist">
+      <div id="checklist-body"></div>
+    </div>
+
+    <!-- ─── PROCUREMENT ─── -->
+    <div class="page" id="page-procurement">
+      <div class="filter-row">
+        <input class="fi" id="f-psearch" placeholder="Search items…" oninput="renderProc()" style="width:190px">
+        <select class="fi" id="f-pcat" onchange="renderProc()"><option value="">All Categories</option></select>
+        <select class="fi" id="f-pstat" onchange="renderProc()">
+          <option value="">All</option>
+          <option value="OVERDUE">🔴 Overdue</option>
+          <option value="URGENT">🟡 Urgent (&lt;14d)</option>
+          <option value="OK">🟢 On Track</option>
+        </select>
+        <button class="btn btn-gold btn-sm" onclick="openAddProc()">+ Add Item</button>
+      </div>
+      <div class="card">
+        <div class="tbl-wrap">
+          <table class="tbl">
+            <thead><tr><th>Item</th><th>Specification</th><th>Category</th><th>Order By</th><th>Required By</th><th>Status</th><th>Supplier</th><th></th></tr></thead>
+            <tbody id="proc-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── APPROVALS ─── -->
+    <div class="page" id="page-approvals">
+      <div class="card">
+        <div class="tbl-wrap">
+          <table class="tbl">
+            <thead><tr><th>#</th><th>Approval Item</th><th>Start</th><th>Deadline</th><th>Days Left</th><th>Status</th><th>Approved By</th><th>Notes</th><th></th></tr></thead>
+            <tbody id="appr-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── ACTIONS ─── -->
+    <div class="page" id="page-actions">
+      <div class="filter-row">
+        <button class="btn btn-gold btn-sm" onclick="openAddAction()">+ New Action</button>
+        <select class="fi" id="f-astat" onchange="renderActions()">
+          <option value="">All</option><option value="Open">Open</option>
+          <option value="In Progress">In Progress</option><option value="Closed">Closed</option>
+        </select>
+        <select class="fi" id="f-apri" onchange="renderActions()">
+          <option value="">All Priority</option><option value="High">High</option>
+          <option value="Medium">Medium</option><option value="Low">Low</option>
+        </select>
+      </div>
+      <div id="actions-list"></div>
+    </div>
+
+    <!-- ─── SNAGS ─── -->
+    <div class="page" id="page-snags">
+      <div id="snag-stats-row" style="display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-bottom:14px"></div>
+      <div class="filter-row">
+        <button class="btn btn-gold btn-sm" onclick="openAddSnag()">+ Log Snag</button>
+        <select class="fi" id="f-sstat" onchange="renderSnags()">
+          <option value="">All</option><option value="Open">Open</option>
+          <option value="In Progress">In Progress</option><option value="Closed">Closed</option>
+        </select>
+        <select class="fi" id="f-ssev" onchange="renderSnags()">
+          <option value="">All Severity</option><option value="Critical">Critical</option>
+          <option value="Major">Major</option><option value="Minor">Minor</option>
+        </select>
+      </div>
+      <div id="snags-list"></div>
+    </div>
+
+  </div><!-- /content -->
+</main>
+
+<!-- ═══ MODAL ═══ -->
+<div class="modal-overlay" id="modal" onclick="closeMOverlay(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <div class="modal-title" id="modal-title">Edit</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-gold btn-sm" onclick="saveModal()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════ CONSTANTS & DATA
+const TODAY = new Date('2026-04-28');
+const PROJ_START = new Date('2026-04-13');
+const PROJ_END   = new Date('2026-09-18');
+const PHASES = [
+  'Approval Schedule',
+  'Program Schedule',
+  'Internal "Wet works" (Contractor)',
+  'External Works Phase',
+  'Internal works & Interior Design'
+];
+const PHASE_COLORS = ['#c49e48','#4599d4','#9b7fd4','#3fad78','#e05252'];
+
+const TASKS_INIT = [
+  {id:1,n:'Column Kickers and Formwork',ph:'Program Schedule',deps:'',s:'2026-04-20',f:'2026-04-23',dur:4,proc:null,appr:null,status:'Completed',owner:'',notes:''},
+  {id:2,n:'Column Concreting',ph:'Program Schedule',deps:'1',s:'2026-04-24',f:'2026-05-02',dur:8,proc:null,appr:'2026-04-23',status:'In Progress',owner:'',notes:''},
+  {id:3,n:'Block Work below lintels',ph:'Program Schedule',deps:'2',s:'2026-05-05',f:'2026-05-14',dur:9,proc:null,appr:'2026-05-04',status:'',owner:'',notes:''},
+  {id:4,n:'Lintels',ph:'Program Schedule',deps:'3',s:'2026-05-15',f:'2026-05-19',dur:5,proc:null,appr:null,status:'',owner:'',notes:''},
+  {id:5,n:'Block work above lintels',ph:'Program Schedule',deps:'4',s:'2026-05-20',f:'2026-05-23',dur:4,proc:null,appr:null,status:'',owner:'',notes:''},
+  {id:6,n:'M&E First Fix (Superstructure)',ph:'Program Schedule',deps:'3',s:'2026-05-21',f:'2026-05-24',dur:4,proc:'2026-05-01',appr:null,status:'',owner:'',notes:'Conduits, initial wiring'},
+  {id:7,n:'Roof beams formwork',ph:'Program Schedule',deps:'5',s:'2026-05-23',f:'2026-05-25',dur:3,proc:null,appr:null,status:'',owner:'',notes:''},
+  {id:8,n:'Roof beam Concreting',ph:'Program Schedule',deps:'7',s:'2026-05-26',f:'2026-05-27',dur:2,proc:null,appr:null,status:'',owner:'',notes:''},
+  {id:9,n:'Roof carcass and covering',ph:'Program Schedule',deps:'8',s:'2026-05-28',f:'2026-06-11',dur:13,proc:'2026-05-01',appr:null,status:'',owner:'',notes:''},
+  {id:10,n:'External Walls Plastering/Rendering',ph:'Program Schedule',deps:'9',s:'2026-06-12',f:'2026-06-26',dur:15,proc:null,appr:null,status:'',owner:'',notes:''},
+  {id:11,n:'Doors and window installation',ph:'Program Schedule',deps:'10',s:'2026-06-27',f:'2026-07-10',dur:14,proc:null,appr:null,status:'',owner:'',notes:''},
+  {id:12,n:'Cladding (External Walls)',ph:'Program Schedule',deps:'10',s:'2026-06-27',f:'2026-07-31',dur:30,proc:'2026-05-15',appr:null,status:'',owner:'',notes:'KALSI board — long lead'},
+  {id:13,n:'Internal Waterproofing & Plastering',ph:'Internal "Wet works" (Contractor)',deps:'3',s:'2026-06-01',f:'2026-06-15',dur:15,proc:null,appr:null,status:'',owner:'',notes:''},
+  {id:14,n:'M&E Second Fix (Wiring, Piping)',ph:'Internal "Wet works" (Contractor)',deps:'6',s:'2026-06-16',f:'2026-06-30',dur:15,proc:null,appr:null,status:'',owner:'',notes:''},
+  {id:15,n:'Ceiling Installation (P.O.P/Timber)',ph:'Internal "Wet works" (Contractor)',deps:'14',s:'2026-07-01',f:'2026-07-15',dur:15,proc:null,appr:null,status:'',owner:'',notes:''},
+  {id:16,n:'Floor Screeding & Tiling',ph:'Internal "Wet works" (Contractor)',deps:'15',s:'2026-07-16',f:'2026-08-15',dur:31,proc:'2026-06-15',appr:'2026-05-14',status:'',owner:'',notes:'Tiles — long lead'},
+  {id:17,n:'ELV',ph:'Internal "Wet works" (Contractor)',deps:'',s:'2026-07-16',f:'2026-07-30',dur:14,proc:'2026-07-15',appr:null,status:'',owner:'',notes:''},
+  {id:18,n:'Painting',ph:'Internal "Wet works" (Contractor)',deps:'17',s:'2026-08-16',f:'2026-08-20',dur:5,proc:'2026-08-01',appr:null,status:'',owner:'',notes:''},
+  {id:19,n:'Canopy Installation',ph:'External Works Phase',deps:'9',s:'2026-08-01',f:'2026-08-10',dur:10,proc:'2026-07-15',appr:'2026-06-01',status:'',owner:'',notes:''},
+  {id:20,n:'Driveway Construction',ph:'External Works Phase',deps:'1',s:'2026-08-11',f:'2026-08-25',dur:15,proc:null,appr:null,status:'',owner:'',notes:''},
+  {id:21,n:'External MEP connection',ph:'External Works Phase',deps:'9',s:'2026-08-01',f:'2026-08-14',dur:15,proc:'2026-07-01',appr:'2026-06-01',status:'',owner:'',notes:''},
+  {id:22,n:'Landscaping & Garden Works',ph:'External Works Phase',deps:'19, 21',s:'2026-08-20',f:'2026-09-05',dur:17,proc:'2026-08-01',appr:'2026-07-01',status:'',owner:'',notes:''},
+  {id:23,n:'Specialist (Hammam/Koi/cascade)',ph:'Internal works & Interior Design',deps:'9',s:'2026-08-01',f:'2026-08-31',dur:31,proc:'2026-06-01',appr:'2026-05-01',status:'',owner:'',notes:'Long lead — order now'},
+  {id:24,n:'Interior Design',ph:'Internal works & Interior Design',deps:'16',s:'2026-08-01',f:'2026-09-10',dur:41,proc:'2026-07-15',appr:'2026-06-01',status:'',owner:'',notes:''},
+  {id:25,n:'M&E Final Fix & Sanitary Wares',ph:'Internal works & Interior Design',deps:'17',s:'2026-08-20',f:'2026-08-25',dur:5,proc:'2026-08-01',appr:'2026-07-01',status:'',owner:'',notes:''},
+  {id:26,n:'Signages',ph:'Internal works & Interior Design',deps:'19',s:'2026-09-01',f:'2026-09-08',dur:7,proc:'2026-08-15',appr:'2026-07-10',status:'',owner:'',notes:''},
+  {id:27,n:'Testing & Commissioning',ph:'Internal works & Interior Design',deps:'15',s:'2026-08-25',f:'2026-09-17',dur:21,proc:null,appr:null,status:'',owner:'',notes:''},
+  {id:28,n:'Snagging',ph:'Internal works & Interior Design',deps:'27',s:'2026-09-05',f:'2026-09-17',dur:11,proc:null,appr:null,status:'',owner:'',notes:''},
+  {id:29,n:'Formal Handover',ph:'Internal works & Interior Design',deps:'28',s:'2026-09-18',f:'2026-09-18',dur:1,proc:null,appr:null,status:'',owner:'',notes:'Target date'},
+];
+
+const APPROVALS_INIT = [
+  {id:1,n:'Award of specialist',s:'2026-04-13',dl:'2026-05-13',status:'In Progress',by:'',notes:'Interior designer, koi, hammam, water cascade, MEP, ELV, driveway'},
+  {id:2,n:'Cladding samples (KALSI board)',s:'2026-04-21',dl:'2026-05-05',status:'In Progress',by:'',notes:''},
+  {id:3,n:'Tile selection',s:'2026-04-27',dl:'2026-05-14',status:'In Progress',by:'',notes:''},
+  {id:4,n:'Paint colour selection',s:'2026-04-27',dl:'2026-05-27',status:'In Progress',by:'',notes:''},
+  {id:5,n:'Block work sign-off',s:'2026-05-05',dl:'2026-05-05',status:'',by:'',notes:''},
+  {id:6,n:'Roof covering material',s:'2026-05-05',dl:'2026-05-25',status:'',by:'',notes:''},
+  {id:7,n:'Canopy and driveway design',s:'2026-05-11',dl:'2026-06-01',status:'',by:'',notes:''},
+  {id:8,n:'Interior design drawing',s:'2026-05-14',dl:'2026-05-29',status:'',by:'',notes:'Requires specialist award first'},
+  {id:9,n:'MEP fixes sign-off',s:'2026-05-20',dl:'2026-05-20',status:'',by:'',notes:''},
+  {id:10,n:'Roof beam concreting',s:'2026-05-25',dl:'2026-05-25',status:'',by:'',notes:''},
+  {id:11,n:'Signages',s:'2026-06-10',dl:'2026-07-10',status:'',by:'',notes:''},
+  {id:12,n:'FF & E selection',s:'2026-06-16',dl:'2026-07-01',status:'',by:'',notes:''},
+  {id:13,n:'Landscape design',s:'2026-07-17',dl:'2026-08-01',status:'',by:'',notes:''},
+];
+
+const PROC_INIT = [
+  {id:1,n:'Aluminium Sliding Doors (SD series)',spec:'2-track wooden finish, 6mm grey tint — 56 total',cat:'Doors & Windows',ob:'2026-05-01',rb:'2026-06-15',status:'',supp:'',notes:'LONG LEAD'},
+  {id:2,n:'Curtain Wall Glazing System',spec:'Front façade structural glazing — A-504',cat:'Doors & Windows',ob:'2026-05-01',rb:'2026-06-15',status:'',supp:'',notes:'Specialist subcontractor'},
+  {id:3,n:'Steel Framed Door D6',spec:'5mm flush, wood patterned vinyl, 900×2100 — Qty: 3',cat:'Doors & Windows',ob:'2026-05-01',rb:'2026-06-01',status:'',supp:'',notes:''},
+  {id:4,n:'HDF Door with Full Glass Clad D3',spec:'Double swing, viewing glass, 1749×2400 — Qty: 4',cat:'Doors & Windows',ob:'2026-05-01',rb:'2026-06-01',status:'',supp:'',notes:''},
+  {id:5,n:'One-Way Mirror Glazing W9',spec:'Fixed aluminium, mirrored one-way, 1300×1300 — Qty: 8',cat:'Doors & Windows',ob:'2026-05-15',rb:'2026-06-15',status:'',supp:'',notes:''},
+  {id:6,n:'CDK Tiles — Blendstone Dark Grey 600×120mm',spec:'Lobby, Lounges, Reception, Mani/Pedi (FL-02)',cat:'Tiles',ob:'2026-05-15',rb:'2026-06-15',status:'',supp:'',notes:''},
+  {id:7,n:'CDK Tiles — Oakwood Matte 300×1200mm',spec:'Bridge, Deck, Massage, Lounge 2 (FL-01)',cat:'Tiles',ob:'2026-05-15',rb:'2026-06-15',status:'',supp:'',notes:''},
+  {id:8,n:'CDK Tiles — Mica IV 600×600mm Ultra Polish',spec:'Hammam Bath floor & wall (FL-04)',cat:'Tiles',ob:'2026-05-01',rb:'2026-06-01',status:'',supp:'',notes:'LONG LEAD — specialist'},
+  {id:9,n:'CDK Tiles — Non-Slip Vitrified 600×600mm',spec:'WC, SHO, Gents, Ladies, wet areas (FL-03)',cat:'Tiles',ob:'2026-05-15',rb:'2026-06-15',status:'',supp:'',notes:''},
+  {id:10,n:'Venetian Cement Wall Tiles 300×600mm',spec:'WC, SHO, Hammam walls — glossy finish',cat:'Tiles',ob:'2026-05-15',rb:'2026-06-15',status:'',supp:'',notes:''},
+  {id:11,n:'Hammam Decorative Feature Tiles',spec:'Bespoke large format printed — tree graphic — A-406',cat:'Specialist',ob:'2026-05-01',rb:'2026-06-01',status:'',supp:'',notes:'BESPOKE — very long lead'},
+  {id:12,n:'Hammam Heated Stone Treatment Table',spec:'Specialist heated marble/stone slab',cat:'Specialist',ob:'2026-05-01',rb:'2026-06-01',status:'',supp:'',notes:'Import item — order now'},
+  {id:13,n:'Steam Generator Unit',spec:'Commercial steam generator to M&E spec',cat:'Specialist',ob:'2026-05-01',rb:'2026-06-01',status:'',supp:'',notes:'Coordinate with OMIJLED'},
+  {id:14,n:'Koi Pond EPDM Liner (45-mil Fish-Safe)',spec:'45-mil fish-safe EPDM rubber liner',cat:'Specialist',ob:'2026-05-01',rb:'2026-06-01',status:'',supp:'',notes:'Fish-safe certification required'},
+  {id:15,n:'Koi Pond Filtration & Pump System',spec:'Filtration, circulation pump, UV steriliser',cat:'Specialist',ob:'2026-05-01',rb:'2026-06-15',status:'',supp:'',notes:'Engage Koi specialist now'},
+  {id:16,n:'Indoor Water Cascade Unit',spec:'Upper basin, engine/pump, shiny ceramic tiles, catchment — A-401b',cat:'Specialist',ob:'2026-05-01',rb:'2026-06-01',status:'',supp:'',notes:'Specialist water feature'},
+  {id:17,n:'Exposed Structural Timber — Panelling',spec:'Seasoned & treated ceiling/wall panelling — A-603',cat:'Timber',ob:'2026-05-01',rb:'2026-06-15',status:'',supp:'',notes:'Must be seasoned — long lead'},
+  {id:18,n:'External Hardwood Decking Boards',spec:'Treated hardwood, weather resistant',cat:'Timber',ob:'2026-05-15',rb:'2026-06-15',status:'',supp:'',notes:''},
+  {id:19,n:'Timber Lattice Screens',spec:'50×60mm rails, 25×60mm lattice @ 60mm ctrs — A-503',cat:'Timber',ob:'2026-05-15',rb:'2026-07-01',status:'',supp:'',notes:''},
+  {id:20,n:'KALSI Board (External Cladding)',spec:'Long lead — sample approved per A-605',cat:'External',ob:'2026-05-15',rb:'2026-06-27',status:'',supp:'',notes:''},
+  {id:21,n:'Polycarbonate Sheet (Danpalon) — Porch',spec:'On steel rafters & trusses per A-102',cat:'Roofing',ob:'2026-05-01',rb:'2026-05-28',status:'',supp:'',notes:''},
+  {id:22,n:'PVC Roof Gutter & Valley Gutter System',spec:'Full perimeter drainage per A-102',cat:'Roofing',ob:'2026-05-15',rb:'2026-06-11',status:'',supp:'',notes:''},
+  {id:23,n:'Fire Alarm & Detection System',spec:'Panel, smoke/heat detectors, call points, sounders',cat:'MEP',ob:'2026-05-15',rb:'2026-06-15',status:'',supp:'',notes:'Statutory — fire engineer sign-off'},
+  {id:24,n:'CCTV & NVR System',spec:'Cameras, NVR unit, full building coverage',cat:'ELV',ob:'2026-06-15',rb:'2026-07-15',status:'',supp:'',notes:''},
+  {id:25,n:'Access Control System',spec:'Card readers, electric strikes, panels',cat:'ELV',ob:'2026-06-15',rb:'2026-07-15',status:'',supp:'',notes:''},
+  {id:26,n:'PA / Background Music System',spec:'Amplifier, speakers, zone wiring throughout',cat:'ELV',ob:'2026-06-15',rb:'2026-07-15',status:'',supp:'',notes:''},
+  {id:27,n:'Corian Countertop — Manicure/Pedicure',spec:'Custom fabricated Corian — per A-101 revision note',cat:'Interior',ob:'2026-06-01',rb:'2026-07-01',status:'',supp:'',notes:'Confirm colour/finish with architect'},
+  {id:28,n:'Cultured Stone Coping — Koi Pond',spec:'Architect-approved cultured stone coping',cat:'Specialist',ob:'2026-06-01',rb:'2026-07-01',status:'',supp:'',notes:''},
+  {id:29,n:'Sanitary Wares',spec:'Full schedule per room schedule',cat:'Sanitary',ob:'2026-07-14',rb:'2026-08-01',status:'',supp:'',notes:''},
+  {id:30,n:'Railing Timber Top Rail & Balusters',spec:'Per A-505',cat:'Timber',ob:'2026-06-01',rb:'2026-07-01',status:'',supp:'',notes:''},
+];
+
+const CHECKS_INIT = {
+  'Pre-Construction':['Building permit confirmed and received','All consultant drawings issued for construction','Contractor all-risk insurance in place','Site welfare and H&S plan established','Setting out by surveyor completed','EKEDC / utility connection approvals obtained','All specialist contractors awarded'],
+  'Structural Works':['Column kicker reinforcement inspected','Column kicker formwork approved','Column concrete poured and tested','Block work below lintels inspected','Lintel positions signed off','Block work above lintels inspected','Roof beam reinforcement inspected','Roof beam concrete poured and tested','Structural engineer sign-off on frame'],
+  'Roof & Envelope':['Roof carcass inspected by structural engineer','Roof covering material delivered on site','Roof covering installed','Polycarbonate porch roof installed','PVC gutters and downpipes installed','External wall plastering completed','Cladding (KALSI board) installed','Curtain wall glazing installed','All doors installed and operational','All windows installed and operational'],
+  'Internal Works':['Internal waterproofing completed and watertight test passed','M&E first fix conduits inspected','M&E second fix wiring and piping inspected','ELV rough-in complete','Ceiling installation (P.O.P / Timber) completed','Floor screed laid and cured','All floor tiles laid and grouted','All wall tiles laid and grouted','Hammam Mica tiles installed','Hammam heated stone table installed','Steam generator installed and tested','Indoor water cascade installed and tested','Timber lattice screens installed','Painting — base coats applied','Painting — final coats completed'],
+  'Specialist Works':['Koi pond EPDM liner installed — watertight test passed','Koi pond filtration and pump system operational','Koi pond cultured stone coping installed','Hammam fully operational — steam test passed','Water cascade operational','Interior design FF&E installed','Signages installed','Corian countertop installed — Mani/Pedi room','Mirror installed — LB/Ladies area'],
+  'External Works':['Canopy structure erected','Canopy cladding/finish completed','Driveway paving completed','External MEP connections live','Landscaping and garden planting completed','Coloured stamped concrete — Garden Court completed'],
+  'MEP & ELV':['Electrical panel installed and certified','EKEDC connection live','Water supply operational','Sewage/drainage connected and tested','M&E final fix — sanitary wares installed','Light fittings installed','Fire alarm installed and tested','CCTV system commissioned','Access control operational','PA/BGM system commissioned','Air conditioning installed and operational'],
+  'Handover':['Testing & commissioning of all systems complete','Snagging list raised and reviewed with contractor','All snags cleared and signed off','O&M manuals received from all contractors','As-built drawings received','Staff training on Hammam/steam/ELV completed','Keys and access cards handed over','Formal handover certificate signed'],
+};
+
+// ═══════════════════════════════════════════ STORAGE
+const SK = { t:'spa_pm_t4', a:'spa_pm_a4', p:'spa_pm_p4', c:'spa_pm_c4', ac:'spa_pm_ac4', sn:'spa_pm_sn4' };
+const load = (k,d) => { try { const s=localStorage.getItem(k); if(s) return JSON.parse(s) } catch(e){} return JSON.parse(JSON.stringify(d)) };
+const save = (k,d) => { try { localStorage.setItem(k,JSON.stringify(d)) } catch(e){} };
+
+let tasks     = load(SK.t, TASKS_INIT);
+let approvals = load(SK.a, APPROVALS_INIT);
+let procs     = load(SK.p, PROC_INIT);
+let checks    = load(SK.c, CHECKS_INIT);
+let actions   = load(SK.ac, []);
+let snags     = load(SK.sn, []);
+
+// ═══════════════════════════════════════════ UTILS
+const fdate = d => { if(!d)return'—'; return new Date(d).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'2-digit'}) };
+const daysLeft = d => { if(!d)return null; return Math.round((new Date(d)-TODAY)/86400000) };
+const ragFor = t => {
+  if(t.status==='Completed') return '';
+  const s=new Date(t.s), f=new Date(t.f);
+  if(f<TODAY) return 'RED';
+  if(s<=TODAY) return 'AMBER';
+  return 'GREEN';
+};
+const ragBadge = r => {
+  if(!r) return '<span class="badge muted">—</span>';
+  const m = {RED:'red',AMBER:'amber',GREEN:'green'};
+  return `<span class="badge ${m[r]||'muted'}">${r}</span>`;
+};
+const statBadge = s => {
+  if(!s||s==='Not Started') return '<span class="badge muted">Not Started</span>';
+  if(s==='Completed') return '<span class="badge done">Completed</span>';
+  if(s==='In Progress') return '<span class="badge inprog">In Progress</span>';
+  if(s==='Closed') return '<span class="badge done">Closed</span>';
+  if(s==='Open') return '<span class="badge red">Open</span>';
+  return `<span class="badge muted">${s}</span>`;
+};
+const urgColor = d => {
+  if(d===null) return 'var(--dust)';
+  if(d<0) return 'var(--red)';
+  if(d<=7) return 'var(--red)';
+  if(d<=14) return 'var(--amr)';
+  return 'var(--grn)';
+};
+
+// ═══════════════════════════════════════════ NAVIGATION
+const PAGE_NAMES = {
+  dashboard:'Dashboard', notifications:'Notifications', tasks:'Task Tracker',
+  gantt:'Gantt Chart', checklist:'Checklist', procurement:'Procurement',
+  approvals:'Approvals', actions:'Action Items', snags:'Snag List',
+};
+const BTN_LABELS = {
+  dashboard:'+ Add Task', tasks:'+ Add Task', procurement:'+ Add Item',
+  actions:'+ New Action', snags:'+ Log Snag',
+};
+let curPage = 'dashboard';
+
+function go(id) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.getElementById('page-heading').textContent = PAGE_NAMES[id];
+  const btn = document.getElementById('main-btn');
+  if(BTN_LABELS[id]) { btn.textContent=BTN_LABELS[id]; btn.style.display=''; }
+  else btn.style.display='none';
+  // highlight nav
+  document.querySelectorAll('.nav-item').forEach(n=>{
+    const txt = n.textContent.trim().split('\n')[0].trim();
+    if(txt === PAGE_NAMES[id]) n.classList.add('active');
+  });
+  curPage = id;
+  const renders = {
+    dashboard:renderDash, tasks:renderTasks, gantt:renderGantt,
+    checklist:renderChecklist, procurement:renderProc, approvals:renderAppr,
+    actions:renderActions, snags:renderSnags, notifications:renderNotifs
+  };
+  if(renders[id]) renders[id]();
+}
+
+function mainBtnClick() {
+  const m = {dashboard:openAddTask,tasks:openAddTask,procurement:openAddProc,actions:openAddAction,snags:openAddSnag};
+  if(m[curPage]) m[curPage]();
+}
+
+// ═══════════════════════════════════════════ SIDEBAR UPDATE
+function updateSidebar() {
+  tasks.forEach(t => { if(t.status!=='Completed') t.rag = ragFor(t); });
+  const done = tasks.filter(t=>t.status==='Completed').length;
+  const red  = tasks.filter(t=>t.rag==='RED').length;
+  const pct  = Math.round(done/tasks.length*100);
+  document.getElementById('sb-done').textContent = done;
+  document.getElementById('sb-red').textContent  = red;
+  document.getElementById('sb-pct').textContent  = pct+'%';
+  document.getElementById('sb-fill').style.width = pct+'%';
+  const dl = Math.max(0,Math.round((PROJ_END-TODAY)/86400000));
+  document.getElementById('sb-days').textContent = dl;
+  document.getElementById('sb-today-date').textContent =
+    TODAY.toLocaleDateString('en-GB',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});
+  // Notification badges
+  const crits = buildNotifs().filter(n=>n.lvl==='crit').length;
+  const nb = document.getElementById('nb-notif');
+  nb.textContent = crits; nb.style.display = crits>0?'':'none';
+  const procUrgent = procs.filter(p=>p.status!=='Received'&&p.status!=='Ordered'&&daysLeft(p.ob)!==null&&daysLeft(p.ob)<=7).length;
+  const nbp = document.getElementById('nb-proc');
+  nbp.textContent = procUrgent; nbp.style.display = procUrgent>0?'':'none';
+  const apprUrgent = approvals.filter(a=>a.status!=='Approved'&&daysLeft(a.dl)!==null&&daysLeft(a.dl)<=7).length;
+  const nba = document.getElementById('nb-appr');
+  nba.textContent = apprUrgent; nba.style.display = apprUrgent>0?'':'none';
+  const openActs = actions.filter(a=>a.status!=='Closed').length;
+  const nbac = document.getElementById('nb-act');
+  nbac.textContent = openActs; nbac.style.display = openActs>0?'':'none';
+  const openSnags = snags.filter(s=>s.status!=='Closed').length;
+  const nbsn = document.getElementById('nb-snag');
+  nbsn.textContent = openSnags; nbsn.style.display = openSnags>0?'':'none';
+  document.getElementById('k-snags').textContent = openSnags;
+  document.getElementById('k-act-sub').textContent = openActs+' open actions';
+}
+
+// ═══════════════════════════════════════════ DASHBOARD
+function renderDash() {
+  updateSidebar();
+  const totalDays = Math.round((PROJ_END-PROJ_START)/86400000);
+  const elapsed   = Math.max(0,Math.min(totalDays,Math.round((TODAY-PROJ_START)/86400000)));
+  const pct       = Math.round(elapsed/totalDays*100);
+  const dl        = Math.max(0,Math.round((PROJ_END-TODAY)/86400000));
+  document.getElementById('d-days').textContent = dl;
+  document.getElementById('d-elapsed').style.width = pct+'%';
+  document.getElementById('d-pct').textContent = pct+'% of project timeline elapsed · '+elapsed+' days in';
+  // Alerts
+  const reds = tasks.filter(t=>t.rag==='RED').length;
+  const ambs = tasks.filter(t=>t.rag==='AMBER').length;
+  let alertsHTML = '';
+  if(reds>0) alertsHTML += `<div class="alert-chip red">⚡ ${reds} Critical</div>`;
+  if(ambs>0) alertsHTML += `<div class="alert-chip amber">⚠ ${ambs} Amber</div>`;
+  document.getElementById('d-alerts').innerHTML = alertsHTML;
+  // KPIs
+  const done=tasks.filter(t=>t.status==='Completed').length;
+  const prog=tasks.filter(t=>t.status==='In Progress').length;
+  const over=tasks.filter(t=>t.rag==='RED').length;
+  document.getElementById('k-total').textContent = tasks.length;
+  document.getElementById('k-done').textContent  = done;
+  document.getElementById('k-done-pct').textContent = Math.round(done/tasks.length*100)+'% complete';
+  document.getElementById('k-prog').textContent  = prog;
+  document.getElementById('k-amber-ct').textContent = tasks.filter(t=>t.rag==='AMBER').length+' amber';
+  document.getElementById('k-over').textContent  = over;
+  // Phase progress
+  let phHTML = '';
+  PHASES.forEach((ph,i)=>{
+    const pts = tasks.filter(t=>t.ph===ph);
+    if(!pts.length) return;
+    const pd = pts.filter(t=>t.status==='Completed').length;
+    const pp = Math.round(pd/pts.length*100);
+    phHTML += `<div class="phase-row">
+      <div class="phase-row-head">
+        <div class="phase-name">${ph.replace(' (Contractor)','')}</div>
+        <div class="phase-count">${pd}/${pts.length} · ${pp}%</div>
+      </div>
+      <div class="phase-bar"><div class="phase-fill" style="width:${pp}%;background:${PHASE_COLORS[i]}"></div></div>
+    </div>`;
+  });
+  document.getElementById('d-phases').innerHTML = phHTML;
+  // Deadlines
+  const dls = [];
+  tasks.forEach(t=>{
+    if(t.proc){const d=daysLeft(t.proc);if(d!==null&&d>=0&&d<=21)dls.push({name:t.n,date:t.proc,type:'Procurement',days:d});}
+    if(t.appr){const d=daysLeft(t.appr);if(d!==null&&d>=0&&d<=21)dls.push({name:t.n,date:t.appr,type:'Approval',days:d});}
+  });
+  approvals.forEach(a=>{
+    if(a.status!=='Approved'){const d=daysLeft(a.dl);if(d!==null&&d>=0&&d<=21)dls.push({name:a.n,date:a.dl,type:'Approval',days:d});}
+  });
+  dls.sort((a,b)=>a.days-b.days);
+  document.getElementById('d-deadlines').innerHTML = dls.length
+    ? dls.slice(0,8).map(d=>`<div class="deadline-item">
+        <div class="dl-dot" style="background:${urgColor(d.days)}"></div>
+        <div style="flex:1">
+          <div class="dl-task">${d.name.length>40?d.name.slice(0,40)+'…':d.name}</div>
+          <div class="dl-meta">${d.type} · ${fdate(d.date)}</div>
+        </div>
+        <div class="dl-days" style="color:${urgColor(d.days)}">${d.days===0?'TODAY':d.days+'d'}</div>
+      </div>`).join('')
+    : '<div class="empty-state"><p>No deadlines in next 21 days ✅</p></div>';
+  // Active tasks table
+  const active = tasks.filter(t=>t.rag==='RED'||t.rag==='AMBER'||t.status==='In Progress');
+  if(active.length) {
+    document.getElementById('d-active').innerHTML = `<table class="tbl" style="width:100%">
+      <thead><tr><th>#</th><th>Task</th><th>Finish</th><th>RAG</th><th>Status</th><th></th></tr></thead>
+      <tbody>${active.map(t=>`<tr>
+        <td style="font-family:var(--mono);font-size:9px;color:var(--dust)">#${t.id}</td>
+        <td style="font-size:12px;color:var(--cream2);max-width:220px">${t.n.length>42?t.n.slice(0,42)+'…':t.n}</td>
+        <td>${fdate(t.f)}</td>
+        <td>${ragBadge(t.rag)}</td>
+        <td>${statBadge(t.status)}</td>
+        <td><button class="tbl-action" onclick="editTask(${t.id})">Edit</button></td>
+      </tr>`).join('')}</tbody>
+    </table>`;
+  } else {
+    document.getElementById('d-active').innerHTML = '<div class="empty-state"><div class="ei">✅</div><p>No active or at-risk tasks</p></div>';
+  }
+  // Critical path
+  const cp = tasks.filter(t=>t.rag==='RED'||t.rag==='AMBER').sort((a,b)=>new Date(a.f)-new Date(b.f));
+  document.getElementById('d-cp').innerHTML = cp.length
+    ? cp.slice(0,5).map(t=>{
+        const d = daysLeft(t.f);
+        return `<div class="cp-row ${t.rag==='AMBER'?'amber':''}">
+          <div class="cp-id">#${t.id}</div>
+          <div class="cp-task">${t.n.length>32?t.n.slice(0,32)+'…':t.n}</div>
+          <div class="cp-days" style="color:${t.rag==='RED'?'var(--red)':'var(--amr)'}">${d!==null?(d<0?Math.abs(d)+'d over':d+'d left'):'—'}</div>
+        </div>`;
+      }).join('')
+    : '<div class="empty-state"><div class="ei">🟢</div><p>No critical issues</p></div>';
+}
+
+// ═══════════════════════════════════════════ TASKS
+function renderTasks() {
+  updateSidebar();
+  const psel = document.getElementById('f-tphase');
+  const cv = psel.value;
+  const phases = [...new Set(tasks.map(t=>t.ph))];
+  psel.innerHTML = '<option value="">All Phases</option>'+phases.map(p=>`<option value="${p}" ${p===cv?'selected':''}>${p}</option>`).join('');
+  const s  = document.getElementById('f-tsearch').value.toLowerCase();
+  const fp = psel.value;
+  const fr = document.getElementById('f-trag').value;
+  const fs = document.getElementById('f-tstat').value;
+  let filtered = tasks.filter(t=>{
+    if(s && !t.n.toLowerCase().includes(s) && !String(t.id).includes(s)) return false;
+    if(fp && t.ph!==fp) return false;
+    if(fr && t.rag!==fr) return false;
+    if(fs){
+      const st = t.status||'Not Started';
+      if(fs==='Not Started' && st!=='Not Started' && st!=='') return false;
+      if(fs!=='Not Started' && st!==fs) return false;
+    }
+    return true;
+  });
+  let lastPh='', rows='';
+  filtered.forEach(t=>{
+    if(t.ph!==lastPh){ rows+=`<tr class="group-row"><td colspan="13">${t.ph}</td></tr>`; lastPh=t.ph; }
+    const r = t.rag||ragFor(t);
+    rows += `<tr>
+      <td style="font-family:var(--mono);font-size:9px;color:var(--dust)">#${t.id}</td>
+      <td style="font-weight:500;color:var(--cream)">${t.n}</td>
+      <td style="font-size:9px;color:var(--dust)">${t.ph.split(' ').slice(0,2).join(' ')}</td>
+      <td style="font-family:var(--mono);font-size:9px;color:var(--dust)">${t.deps||'—'}</td>
+      <td>${fdate(t.s)}</td>
+      <td>${fdate(t.f)}</td>
+      <td style="text-align:center">${t.dur}</td>
+      <td style="font-size:11px">${t.proc?`<span style="color:${urgColor(daysLeft(t.proc))}">${fdate(t.proc)}</span>`:'—'}</td>
+      <td style="font-size:11px">${t.appr?`<span style="color:${urgColor(daysLeft(t.appr))}">${fdate(t.appr)}</span>`:'—'}</td>
+      <td>${ragBadge(r)}</td>
+      <td>${statBadge(t.status)}</td>
+      <td style="color:var(--dust);font-size:11px">${t.owner||'—'}</td>
+      <td><button class="tbl-action" onclick="editTask(${t.id})">Edit</button></td>
+    </tr>`;
+  });
+  document.getElementById('tasks-tbody').innerHTML = rows || '<tr><td colspan="13" style="text-align:center;color:var(--dust);padding:20px">No tasks match filters</td></tr>';
+}
+
+// ═══════════════════════════════════════════ GANTT
+function renderGantt() {
+  const GS=new Date('2026-04-01'), GE=new Date('2026-09-30');
+  const TOTAL=Math.round((GE-GS)/86400000);
+  const pct=d=>{ if(!d)return 0; return Math.max(0,Math.min(100,((new Date(d)-GS)/86400000/TOTAL)*100)); };
+  const todayPct=pct(TODAY.toISOString().slice(0,10));
+  const months=['Apr','May','Jun','Jul','Aug','Sep'];
+  let h = `<div class="gantt-header">
+    <div class="gantt-label-col">Task</div>
+    <div class="gantt-months">${months.map(m=>`<div class="gantt-month">${m}</div>`).join('')}</div>
+  </div><div class="gantt-body">`;
+  PHASES.forEach(ph=>{
+    const pts=tasks.filter(t=>t.ph===ph);
+    if(!pts.length)return;
+    h+=`<div class="gantt-row gantt-group"><div class="gantt-row-name gph">${ph}</div><div class="gantt-bars" style="height:24px"><div class="gantt-today" style="left:${todayPct}%"></div></div></div>`;
+    pts.forEach(t=>{
+      const s=pct(t.s), e=pct(t.f), w=Math.max(0.5,e-s);
+      let bc='rgba(196,158,72,0.4)';
+      if(t.status==='Completed') bc='rgba(63,173,120,0.7)';
+      else if(t.status==='In Progress') bc='var(--amr)';
+      else if(t.rag==='RED') bc='var(--red)';
+      h+=`<div class="gantt-row">
+        <div class="gantt-row-name" title="${t.n}"><span class="gid">#${t.id}</span>${t.n.length>28?t.n.slice(0,28)+'…':t.n}</div>
+        <div class="gantt-bars">
+          <div class="gantt-today" style="left:${todayPct}%"></div>
+          <div class="gantt-bar" style="left:${s}%;width:${w}%;background:${bc}" title="#${t.id} ${t.n} · ${fdate(t.s)} → ${fdate(t.f)}" onclick="editTask(${t.id})"></div>
+        </div>
+      </div>`;
+    });
+  });
+  h+='</div>';
+  document.getElementById('gantt-wrap').innerHTML=h;
+}
+
+// ═══════════════════════════════════════════ CHECKLIST
+function renderChecklist() {
+  let h='';
+  Object.entries(checks).forEach(([sec,items])=>{
+    const done=items.filter(i=>typeof i==='object'?i.done:false).length;
+    const pp=Math.round(done/items.length*100);
+    h+=`<div class="cl-section">
+      <div class="cl-section-head">${sec}<div class="cl-section-pct">${done}/${items.length} · ${pp}%</div></div>
+      <div class="phase-bar" style="margin-bottom:10px;height:3px"><div class="phase-fill" style="width:${pp}%;background:var(--gold)"></div></div>`;
+    items.forEach((item,idx)=>{
+      const lbl = typeof item==='object'?item.label:item;
+      const dn  = typeof item==='object'?item.done:false;
+      h+=`<div class="cl-item ${dn?'checked':''}" onclick="toggleCheck('${sec.replace(/'/g,"\\'")}',${idx})">
+        <div class="cl-box ${dn?'on':''}"></div>
+        <div class="cl-label">${lbl}</div>
+      </div>`;
+    });
+    h+='</div>';
+  });
+  document.getElementById('checklist-body').innerHTML=h;
+}
+function toggleCheck(sec,idx){
+  const items=checks[sec];
+  if(typeof items[idx]==='string') items[idx]={label:items[idx],done:true};
+  else items[idx].done=!items[idx].done;
+  save(SK.c,checks); renderChecklist();
+}
+
+// ═══════════════════════════════════════════ PROCUREMENT
+function renderProc(){
+  const cats=[...new Set(procs.map(p=>p.cat))].sort();
+  const csel=document.getElementById('f-pcat'); const cv=csel.value;
+  csel.innerHTML='<option value="">All Categories</option>'+cats.map(c=>`<option value="${c}" ${c===cv?'selected':''}>${c}</option>`).join('');
+  const s=document.getElementById('f-psearch').value.toLowerCase();
+  const fc=csel.value, fr=document.getElementById('f-pstat').value;
+  let fil=procs.filter(p=>{
+    if(s&&!p.n.toLowerCase().includes(s)&&!(p.spec||'').toLowerCase().includes(s))return false;
+    if(fc&&p.cat!==fc)return false;
+    if(fr){
+      const d=daysLeft(p.ob);
+      const od=d!==null&&d<0&&p.status!=='Received';
+      const ur=d!==null&&d>=0&&d<=14&&p.status!=='Received'&&p.status!=='Ordered';
+      if(fr==='OVERDUE'&&!od)return false;
+      if(fr==='URGENT'&&!ur)return false;
+      if(fr==='OK'&&(od||ur))return false;
+    }
+    return true;
+  });
+  const rows=fil.map(p=>{
+    const d=daysLeft(p.ob);
+    const od=d!==null&&d<0&&p.status!=='Received'&&p.status!=='Ordered';
+    const ur=d!==null&&d>=0&&d<=7&&p.status!=='Received'&&p.status!=='Ordered';
+    let sb;
+    if(p.status==='Received')sb='<span class="badge done">Received</span>';
+    else if(p.status==='Ordered')sb='<span class="badge blue">Ordered</span>';
+    else if(od)sb='<span class="badge red">OVERDUE</span>';
+    else if(ur)sb='<span class="badge amber">URGENT</span>';
+    else sb='<span class="badge muted">Pending</span>';
+    return`<tr style="${od?'background:rgba(224,82,82,0.03)':''}">
+      <td style="font-weight:500;color:var(--cream);max-width:200px">${p.n}</td>
+      <td style="font-size:11px;color:var(--dust);max-width:220px">${p.spec||'—'}</td>
+      <td><span class="tag">${p.cat}</span></td>
+      <td style="font-size:11px;color:${urgColor(d)};white-space:nowrap">${fdate(p.ob)}${d!==null?` <span style="font-size:8.5px">(${d<0?Math.abs(d)+'d ago':d+'d'})</span>`:''}</td>
+      <td style="font-size:11px">${fdate(p.rb)}</td>
+      <td>${sb}</td>
+      <td style="font-size:11px;color:var(--dust)">${p.supp||'—'}</td>
+      <td><button class="tbl-action" onclick="editProc(${p.id})">Edit</button></td>
+    </tr>`;
+  }).join('');
+  document.getElementById('proc-tbody').innerHTML=rows||'<tr><td colspan="8" style="text-align:center;color:var(--dust);padding:20px">No items found</td></tr>';
+}
+
+// ═══════════════════════════════════════════ APPROVALS
+function renderAppr(){
+  const rows=approvals.map(a=>{
+    const d=daysLeft(a.dl);
+    const od=d!==null&&d<0&&a.status!=='Approved';
+    let sb;
+    if(a.status==='Approved')sb='<span class="badge done">Approved</span>';
+    else if(a.status==='In Progress')sb='<span class="badge inprog">In Progress</span>';
+    else if(a.status==='Submitted')sb='<span class="badge blue">Submitted</span>';
+    else if(od)sb='<span class="badge red">OVERDUE</span>';
+    else sb='<span class="badge muted">Pending</span>';
+    return`<tr style="${od?'background:rgba(224,82,82,0.03)':''}">
+      <td style="font-family:var(--mono);font-size:9px;color:var(--dust)">#${a.id}</td>
+      <td style="font-weight:500;color:var(--cream)">${a.n}</td>
+      <td style="font-size:11px">${fdate(a.s)}</td>
+      <td style="color:${urgColor(d)};font-size:11px">${fdate(a.dl)}</td>
+      <td style="font-size:11px;font-weight:700;color:${urgColor(d)}">${d===null?'—':d<0?Math.abs(d)+'d over':d===0?'TODAY':d+'d'}</td>
+      <td>${sb}</td>
+      <td style="font-size:11px;color:var(--dust)">${a.by||'—'}</td>
+      <td style="font-size:11px;color:var(--dust);max-width:180px">${a.notes||'—'}</td>
+      <td><button class="tbl-action" onclick="editAppr(${a.id})">Edit</button></td>
+    </tr>`;
+  }).join('');
+  document.getElementById('appr-tbody').innerHTML=rows;
+}
+
+// ═══════════════════════════════════════════ NOTIFICATIONS
+function buildNotifs(){
+  const ns=[];
+  // Overdue procurement
+  procs.filter(p=>p.status!=='Received'&&p.status!=='Ordered').forEach(p=>{
+    const d=daysLeft(p.ob);
+    if(d!==null&&d<0)ns.push({lvl:'crit',ic:'🔴',ti:`OVERDUE: ${p.n}`,de:`Order deadline was ${fdate(p.ob)} — ${Math.abs(d)} days ago. Order immediately.`,tm:'Procurement'});
+    else if(d!==null&&d<=7)ns.push({lvl:'warn',ic:'⚠️',ti:`URGENT ORDER: ${p.n}`,de:`Order deadline in ${d} day${d===1?'':'s'} (${fdate(p.ob)}). Confirm supplier and place order now.`,tm:'Procurement'});
+    else if(d!==null&&d<=14)ns.push({lvl:'info',ic:'📦',ti:`Order due soon: ${p.n}`,de:`Order needed by ${fdate(p.ob)} (${d} days).`,tm:'Procurement'});
+  });
+  // Overdue approvals
+  approvals.filter(a=>a.status!=='Approved').forEach(a=>{
+    const d=daysLeft(a.dl);
+    if(d!==null&&d<0)ns.push({lvl:'crit',ic:'🔴',ti:`APPROVAL OVERDUE: ${a.n}`,de:`Deadline was ${fdate(a.dl)} — ${Math.abs(d)} days ago. Escalate immediately.`,tm:'Approvals'});
+    else if(d!==null&&d<=7)ns.push({lvl:'warn',ic:'✍️',ti:`APPROVAL DUE: ${a.n}`,de:`Sign-off needed by ${fdate(a.dl)} (${d} days). Ensure drawings/samples submitted.`,tm:'Approvals'});
+  });
+  // RED programme tasks
+  tasks.filter(t=>t.rag==='RED'&&t.status!=='Completed').forEach(t=>{
+    ns.push({lvl:'crit',ic:'🔴',ti:`TASK OVERDUE: #${t.id} ${t.n}`,de:`Planned finish was ${fdate(t.f)}. Update status or revise programme dates immediately.`,tm:'Programme'});
+  });
+  // AMBER tasks needing update
+  tasks.filter(t=>t.rag==='AMBER'&&!t.status).forEach(t=>{
+    ns.push({lvl:'warn',ic:'🟡',ti:`IN PROGRESS — update needed: #${t.id} ${t.n}`,de:`Started ${fdate(t.s)}, due ${fdate(t.f)}. Confirm it is underway and update status.`,tm:'Programme'});
+  });
+  // Critical snags
+  const crit=snags.filter(s=>s.status!=='Closed'&&s.severity==='Critical');
+  if(crit.length)ns.push({lvl:'crit',ic:'⚡',ti:`${crit.length} CRITICAL Snag${crit.length>1?'s':''} Open`,de:crit.map(s=>s.title).join(' · '),tm:'Snags'});
+  // Overdue actions
+  const oacts=actions.filter(a=>a.status==='Open'&&a.due&&daysLeft(a.due)<0);
+  if(oacts.length)ns.push({lvl:'warn',ic:'⚡',ti:`${oacts.length} Overdue Action${oacts.length>1?'s':''}`,de:oacts.map(a=>a.title).join(' · '),tm:'Actions'});
+  // All clear
+  if(!ns.filter(n=>n.lvl==='crit').length)ns.push({lvl:'ok',ic:'✅',ti:'No critical issues detected',de:'All critical procurement deadlines and approvals appear on track.',tm:'System'});
+  return ns;
+}
+function renderNotifs(){
+  const ns=buildNotifs();
+  document.getElementById('notif-list').innerHTML=ns.map(n=>`
+    <div class="notif ${n.lvl}">
+      <div class="notif-icon">${n.ic}</div>
+      <div class="notif-body">
+        <div class="notif-title">${n.ti}</div>
+        <div class="notif-desc">${n.de}</div>
+      </div>
+      <div class="notif-tag">${n.tm}</div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════ ACTIONS
+function renderActions(){
+  const f=document.getElementById('f-astat').value;
+  const fp=document.getElementById('f-apri').value;
+  const fil=actions.filter(a=>(!f||a.status===f)&&(!fp||a.priority===fp));
+  const pc={High:'var(--red)',Medium:'var(--amr)',Low:'var(--grn)'};
+  document.getElementById('actions-list').innerHTML=fil.length
+    ?fil.map((a,i)=>`<div class="item-card">
+      <div class="item-card-priority" style="background:${pc[a.priority]||'var(--dust)'}"></div>
+      <div class="item-card-body">
+        <div class="item-card-title">${a.title}</div>
+        <div class="item-card-meta">
+          <span>👤 ${a.owner||'Unassigned'}</span>
+          <span>📅 ${fdate(a.due)}</span>
+          <span>🏷 ${a.priority||'—'}</span>
+          ${a.desc?`<span>${a.desc.slice(0,55)}${a.desc.length>55?'…':''}</span>`:''}
+        </div>
+      </div>
+      <div class="item-card-right">
+        ${statBadge(a.status)}
+        <button class="tbl-action" onclick="editAction(${i})">Edit</button>
+      </div>
+    </div>`).join('')
+    :'<div class="empty-state"><div class="ei">✅</div><p>No action items. All clear!</p></div>';
+  updateSidebar();
+}
+
+// ═══════════════════════════════════════════ SNAGS
+function renderSnags(){
+  const sf=document.getElementById('f-sstat').value;
+  const sv=document.getElementById('f-ssev').value;
+  const fil=snags.filter(s=>(!sf||s.status===sf)&&(!sv||s.severity===sv));
+  const sc={Critical:'var(--red)',Major:'var(--amr)',Minor:'var(--grn)'};
+  const scb={Critical:'var(--redb)',Major:'var(--amrb)',Minor:'var(--grnb)'};
+  document.getElementById('snag-stats-row').innerHTML=[
+    {l:'Total',v:snags.length,c:'var(--cream)'},
+    {l:'Open',v:snags.filter(s=>s.status==='Open').length,c:'var(--red)'},
+    {l:'In Progress',v:snags.filter(s=>s.status==='In Progress').length,c:'var(--amr)'},
+    {l:'Closed',v:snags.filter(s=>s.status==='Closed').length,c:'var(--grn)'},
+    {l:'Critical',v:snags.filter(s=>s.severity==='Critical').length,c:'var(--red)'},
+    {l:'Major',v:snags.filter(s=>s.severity==='Major').length,c:'var(--amr)'},
+  ].map(x=>`<div class="card" style="padding:12px;text-align:left">
+    <div style="font-family:var(--display);font-size:28px;font-weight:700;color:${x.c};line-height:1">${x.v}</div>
+    <div style="font-size:9px;color:var(--dust);text-transform:uppercase;letter-spacing:.07em;margin-top:3px">${x.l}</div>
+  </div>`).join('');
+  document.getElementById('snags-list').innerHTML=fil.length
+    ?fil.map((s,i)=>`<div class="item-card">
+      <div class="item-id">SN-${String(i+1).padStart(3,'0')}</div>
+      <div class="item-card-body">
+        <div class="item-card-title">${s.title}</div>
+        <div class="item-card-meta">
+          <span>📍 ${s.location||'—'}</span>
+          <span>👤 ${s.assignee||'Unassigned'}</span>
+          <span>📅 ${fdate(s.raised)}</span>
+        </div>
+        ${s.desc?`<div style="font-size:11px;color:var(--dust);margin-top:4px">${s.desc}</div>`:''}
+      </div>
+      <div class="item-card-right">
+        <span class="badge" style="background:${scb[s.severity]||'rgba(255,255,255,0.05)'};color:${sc[s.severity]||'var(--dust)'}">${s.severity||'—'}</span>
+        ${statBadge(s.status)}
+        <button class="tbl-action" onclick="editSnag(${i})">Edit</button>
+      </div>
+    </div>`).join('')
+    :'<div class="empty-state"><div class="ei">🏗️</div><p>No snags logged yet</p></div>';
+  updateSidebar();
+}
+
+// ═══════════════════════════════════════════ MODAL SYSTEM
+let mMode=null, mId=null;
+function openModalEl(){ document.getElementById('modal').classList.add('open') }
+function closeModal(){ document.getElementById('modal').classList.remove('open'); mMode=null; mId=null }
+function closeMOverlay(e){ if(e.target===document.getElementById('modal')) closeModal() }
+const g = id => { const el=document.getElementById(id); return el?el.value:'' };
+
+function editTask(id){
+  const t=tasks.find(x=>x.id===id); if(!t)return;
+  mMode='editTask'; mId=id;
+  document.getElementById('modal-title').textContent=`Edit Task #${t.id} — ${t.n}`;
+  document.getElementById('modal-body').innerHTML=`
+    <div class="info-grid">
+      <div class="info-box"><div class="info-key">Start</div><div class="info-val">${fdate(t.s)}</div></div>
+      <div class="info-box"><div class="info-key">Finish</div><div class="info-val">${fdate(t.f)}</div></div>
+      <div class="info-box"><div class="info-key">Duration</div><div class="info-val">${t.dur} days</div></div>
+      <div class="info-box"><div class="info-key">Dependencies</div><div class="info-val">${t.deps||'—'}</div></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Status</label>
+        <select class="form-control" id="m-stat">
+          ${['Not Started','In Progress','Completed','On Hold','Blocked'].map(s=>`<option ${(t.status===s||(s==='Not Started'&&!t.status))?'selected':''}>${s}</option>`).join('')}
+        </select></div>
+      <div class="form-group"><label class="form-label">RAG Override</label>
+        <select class="form-control" id="m-rag">
+          <option value="">Auto</option>
+          ${['GREEN','AMBER','RED'].map(r=>`<option ${t.rag===r?'selected':''}>${r}</option>`).join('')}
+        </select></div>
+    </div>
+    <div class="form-group"><label class="form-label">Owner / Responsible</label>
+      <input class="form-control" id="m-owner" value="${t.owner||''}" placeholder="Name or company…"></div>
+    <div class="form-group"><label class="form-label">Notes</label>
+      <textarea class="form-control" id="m-notes">${t.notes||''}</textarea></div>`;
+  openModalEl();
+}
+
+function openAddTask(){
+  mMode='addTask';
+  document.getElementById('modal-title').textContent='Add New Programme Task';
+  document.getElementById('modal-body').innerHTML=`
+    <div class="form-group"><label class="form-label">Task Name</label><input class="form-control" id="m-name" placeholder="Task name…"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Start Date</label><input class="form-control" type="date" id="m-start"></div>
+      <div class="form-group"><label class="form-label">Finish Date</label><input class="form-control" type="date" id="m-finish"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Phase</label>
+        <select class="form-control" id="m-phase">${PHASES.map(p=>`<option>${p}</option>`).join('')}</select></div>
+      <div class="form-group"><label class="form-label">Dependencies (#)</label><input class="form-control" id="m-deps" placeholder="e.g. 1, 3"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Status</label>
+        <select class="form-control" id="m-stat">${['Not Started','In Progress','Completed'].map(s=>`<option>${s}</option>`).join('')}</select></div>
+      <div class="form-group"><label class="form-label">Owner</label><input class="form-control" id="m-owner" placeholder="Assignee…"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Notes</label><textarea class="form-control" id="m-notes" placeholder="Notes…"></textarea></div>`;
+  openModalEl();
+}
+
+function editProc(id){
+  const p=procs.find(x=>x.id===id); if(!p)return;
+  mMode='editProc'; mId=id;
+  document.getElementById('modal-title').textContent=p.n;
+  document.getElementById('modal-body').innerHTML=`
+    <div class="info-grid">
+      <div class="info-box"><div class="info-key">Order By</div><div class="info-val" style="color:${urgColor(daysLeft(p.ob))}">${fdate(p.ob)}</div></div>
+      <div class="info-box"><div class="info-key">Required By</div><div class="info-val">${fdate(p.rb)}</div></div>
+      <div class="info-box"><div class="info-key">Category</div><div class="info-val">${p.cat}</div></div>
+      <div class="info-box"><div class="info-key">Specification</div><div class="info-val" style="font-size:11px">${p.spec||'—'}</div></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Status</label>
+        <select class="form-control" id="m-stat">
+          ${['','Pending','Ordered','Received','On Hold'].map(s=>`<option value="${s}" ${p.status===s?'selected':''}>${s||'Not Started'}</option>`).join('')}
+        </select></div>
+      <div class="form-group"><label class="form-label">Supplier</label>
+        <input class="form-control" id="m-supp" value="${p.supp||''}" placeholder="Supplier name…"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Notes</label>
+      <textarea class="form-control" id="m-notes">${p.notes||''}</textarea></div>`;
+  openModalEl();
+}
+
+function openAddProc(){
+  mMode='addProc';
+  document.getElementById('modal-title').textContent='Add Procurement Item';
+  document.getElementById('modal-body').innerHTML=`
+    <div class="form-group"><label class="form-label">Item Name</label><input class="form-control" id="m-name" placeholder="Item name…"></div>
+    <div class="form-group"><label class="form-label">Specification</label><input class="form-control" id="m-spec" placeholder="Spec / description…"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Category</label>
+        <select class="form-control" id="m-cat"><option>Tiles</option><option>Doors &amp; Windows</option><option>Specialist</option><option>Timber</option><option>MEP</option><option>ELV</option><option>Roofing</option><option>External</option><option>Interior</option><option>Sanitary</option><option>Other</option></select></div>
+      <div class="form-group"><label class="form-label">Order By</label><input class="form-control" type="date" id="m-ob"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Required By</label><input class="form-control" type="date" id="m-rb"></div>
+      <div class="form-group"><label class="form-label">Supplier</label><input class="form-control" id="m-supp" placeholder="Supplier…"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Notes</label><textarea class="form-control" id="m-notes" placeholder="Notes…"></textarea></div>`;
+  openModalEl();
+}
+
+function editAppr(id){
+  const a=approvals.find(x=>x.id===id); if(!a)return;
+  mMode='editAppr'; mId=id;
+  document.getElementById('modal-title').textContent=`Approval: ${a.n}`;
+  document.getElementById('modal-body').innerHTML=`
+    <div class="info-grid">
+      <div class="info-box"><div class="info-key">Start</div><div class="info-val">${fdate(a.s)}</div></div>
+      <div class="info-box"><div class="info-key">Deadline</div><div class="info-val" style="color:${urgColor(daysLeft(a.dl))}">${fdate(a.dl)}</div></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Status</label>
+        <select class="form-control" id="m-stat">
+          ${['','In Progress','Submitted','Approved','Rejected'].map(s=>`<option value="${s}" ${a.status===s?'selected':''}>${s||'Pending'}</option>`).join('')}
+        </select></div>
+      <div class="form-group"><label class="form-label">Approved By</label>
+        <input class="form-control" id="m-by" value="${a.by||''}" placeholder="Name…"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Notes</label>
+      <textarea class="form-control" id="m-notes">${a.notes||''}</textarea></div>`;
+  openModalEl();
+}
+
+function openAddAction(){
+  mMode='addAction';
+  document.getElementById('modal-title').textContent='New Action Item';
+  document.getElementById('modal-body').innerHTML=`
+    <div class="form-group"><label class="form-label">Title</label><input class="form-control" id="m-title" placeholder="What needs to be done…"></div>
+    <div class="form-group"><label class="form-label">Description</label><textarea class="form-control" id="m-desc" placeholder="Details…"></textarea></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Owner</label><input class="form-control" id="m-owner" placeholder="Responsible person…"></div>
+      <div class="form-group"><label class="form-label">Due Date</label><input class="form-control" type="date" id="m-due"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Priority</label>
+        <select class="form-control" id="m-pri"><option>High</option><option>Medium</option><option>Low</option></select></div>
+      <div class="form-group"><label class="form-label">Status</label>
+        <select class="form-control" id="m-stat"><option>Open</option><option>In Progress</option><option>Closed</option></select></div>
+    </div>`;
+  openModalEl();
+}
+
+function editAction(idx){
+  const a=actions[idx]; if(!a)return;
+  mMode='editAction'; mId=idx;
+  document.getElementById('modal-title').textContent='Edit Action Item';
+  document.getElementById('modal-body').innerHTML=`
+    <div class="form-group"><label class="form-label">Title</label><input class="form-control" id="m-title" value="${a.title}"></div>
+    <div class="form-group"><label class="form-label">Description</label><textarea class="form-control" id="m-desc">${a.desc||''}</textarea></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Owner</label><input class="form-control" id="m-owner" value="${a.owner||''}"></div>
+      <div class="form-group"><label class="form-label">Due Date</label><input class="form-control" type="date" id="m-due" value="${a.due||''}"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Priority</label>
+        <select class="form-control" id="m-pri">${['High','Medium','Low'].map(p=>`<option ${a.priority===p?'selected':''}>${p}</option>`).join('')}</select></div>
+      <div class="form-group"><label class="form-label">Status</label>
+        <select class="form-control" id="m-stat">${['Open','In Progress','Closed'].map(s=>`<option ${a.status===s?'selected':''}>${s}</option>`).join('')}</select></div>
+    </div>`;
+  openModalEl();
+}
+
+function openAddSnag(){
+  mMode='addSnag';
+  document.getElementById('modal-title').textContent='Log New Snag';
+  document.getElementById('modal-body').innerHTML=`
+    <div class="form-group"><label class="form-label">Snag Title</label><input class="form-control" id="m-title" placeholder="Describe the defect…"></div>
+    <div class="form-group"><label class="form-label">Description</label><textarea class="form-control" id="m-desc" placeholder="Full description…"></textarea></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Location / Room</label><input class="form-control" id="m-loc" placeholder="e.g. Hammam Bath, Reception…"></div>
+      <div class="form-group"><label class="form-label">Severity</label>
+        <select class="form-control" id="m-sev"><option>Critical</option><option>Major</option><option>Minor</option></select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Assigned To</label><input class="form-control" id="m-assignee" placeholder="Contractor / person…"></div>
+      <div class="form-group"><label class="form-label">Status</label>
+        <select class="form-control" id="m-stat"><option>Open</option><option>In Progress</option><option>Closed</option></select></div>
+    </div>`;
+  openModalEl();
+}
+
+function editSnag(idx){
+  const s=snags[idx]; if(!s)return;
+  mMode='editSnag'; mId=idx;
+  document.getElementById('modal-title').textContent='Edit Snag';
+  document.getElementById('modal-body').innerHTML=`
+    <div class="form-group"><label class="form-label">Title</label><input class="form-control" id="m-title" value="${s.title}"></div>
+    <div class="form-group"><label class="form-label">Description</label><textarea class="form-control" id="m-desc">${s.desc||''}</textarea></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Location</label><input class="form-control" id="m-loc" value="${s.location||''}"></div>
+      <div class="form-group"><label class="form-label">Severity</label>
+        <select class="form-control" id="m-sev">${['Critical','Major','Minor'].map(v=>`<option ${s.severity===v?'selected':''}>${v}</option>`).join('')}</select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Assigned To</label><input class="form-control" id="m-assignee" value="${s.assignee||''}"></div>
+      <div class="form-group"><label class="form-label">Status</label>
+        <select class="form-control" id="m-stat">${['Open','In Progress','Closed'].map(v=>`<option ${s.status===v?'selected':''}>${v}</option>`).join('')}</select></div>
+    </div>`;
+  openModalEl();
+}
+
+// ═══════════════════════════════════════════ SAVE MODAL
+function saveModal(){
+  if(mMode==='editTask'){
+    const t=tasks.find(x=>x.id===mId); if(!t)return;
+    t.status=g('m-stat')==='Not Started'?'':g('m-stat');
+    const ro=g('m-rag'); t.rag=ro&&ro!=='Auto'?ro:ragFor(t);
+    t.owner=g('m-owner'); t.notes=g('m-notes');
+    if(t.status==='Completed') t.rag='';
+    save(SK.t,tasks); closeModal(); renderTasks(); renderDash();
+  }
+  else if(mMode==='addTask'){
+    const nm=g('m-name').trim(); if(!nm)return;
+    const s=g('m-start'), f=g('m-finish');
+    const dur=s&&f?Math.max(1,Math.round((new Date(f)-new Date(s))/86400000)):1;
+    const nid=Math.max(0,...tasks.map(t=>t.id))+1;
+    tasks.push({id:nid,n:nm,ph:g('m-phase'),deps:g('m-deps'),s,f,dur,proc:null,appr:null,status:g('m-stat'),owner:g('m-owner'),notes:g('m-notes'),rag:''});
+    save(SK.t,tasks); closeModal(); renderTasks();
+  }
+  else if(mMode==='editProc'){
+    const p=procs.find(x=>x.id===mId); if(!p)return;
+    p.status=g('m-stat'); p.supp=g('m-supp'); p.notes=g('m-notes');
+    save(SK.p,procs); closeModal(); renderProc();
+  }
+  else if(mMode==='addProc'){
+    const nm=g('m-name').trim(); if(!nm)return;
+    const nid=Math.max(0,...procs.map(p=>p.id))+1;
+    procs.push({id:nid,n:nm,spec:g('m-spec'),cat:g('m-cat'),ob:g('m-ob'),rb:g('m-rb'),status:'',supp:g('m-supp'),notes:g('m-notes')});
+    save(SK.p,procs); closeModal(); renderProc();
+  }
+  else if(mMode==='editAppr'){
+    const a=approvals.find(x=>x.id===mId); if(!a)return;
+    a.status=g('m-stat'); a.by=g('m-by'); a.notes=g('m-notes');
+    save(SK.a,approvals); closeModal(); renderAppr();
+  }
+  else if(mMode==='addAction'){
+    const ti=g('m-title').trim(); if(!ti)return;
+    actions.push({title:ti,desc:g('m-desc'),owner:g('m-owner'),due:g('m-due'),priority:g('m-pri'),status:g('m-stat'),raised:TODAY.toISOString().slice(0,10)});
+    save(SK.ac,actions); closeModal(); renderActions();
+  }
+  else if(mMode==='editAction'){
+    actions[mId]={...actions[mId],title:g('m-title'),desc:g('m-desc'),owner:g('m-owner'),due:g('m-due'),priority:g('m-pri'),status:g('m-stat')};
+    save(SK.ac,actions); closeModal(); renderActions();
+  }
+  else if(mMode==='addSnag'){
+    const ti=g('m-title').trim(); if(!ti)return;
+    snags.push({title:ti,desc:g('m-desc'),location:g('m-loc'),severity:g('m-sev'),assignee:g('m-assignee'),status:g('m-stat'),raised:TODAY.toISOString().slice(0,10)});
+    save(SK.sn,snags); closeModal(); renderSnags();
+  }
+  else if(mMode==='editSnag'){
+    snags[mId]={...snags[mId],title:g('m-title'),desc:g('m-desc'),location:g('m-loc'),severity:g('m-sev'),assignee:g('m-assignee'),status:g('m-stat')};
+    save(SK.sn,snags); closeModal(); renderSnags();
+  }
+  updateSidebar();
+}
+
+// ═══════════════════════════════════════════ INIT
+tasks.forEach(t=>{ if(t.status!=='Completed') t.rag=ragFor(t); });
+renderDash();
+</script>
+</body>
+</html>
